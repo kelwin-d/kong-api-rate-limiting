@@ -21,8 +21,8 @@ This repository demonstrates how to implement API Rate Limiting using Kong API G
 
 🚀 Step 1: Clone the Repository
 
-git clone https://github.com/yourusername/kong-api-rate-limiting.git
-cd kong-api-rate-limiting
+git clone https://github.com/kelwin-d/api-rate-limiting.git
+cd api-rate-limiting
 
 🚀 Step 2: Start Kong, Redis & PostgreSQL Using Docker
 
@@ -62,6 +62,7 @@ curl -X POST http://localhost:8001/routes/my-route/plugins \
 Run this command to send 20 API requests quickly:
 
 for i in {1..20}; do curl -i http://localhost:8000/my-api; done
+
 🔹 Expected Behavior:
 
 First 10 requests succeed.
