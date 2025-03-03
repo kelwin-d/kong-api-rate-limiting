@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  kong-database:
+    image: postgres:13
+    container_name: kong-database
+    restart: always
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+      POSTGRES_PASSWORD: kong
+    ports:
+      - "5432:5432"
+
+  kong:
+    image: kong/kong-gateway:latest
+    container_name: kong
+    restart: always
+    depends_on:
+      - kong-database
+      - redis
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_PLUGINS: bundled,rate-limiting
+    ports:
+      - "8000:8000"  # API Requests
+      - "8443:8443"  # Secure API Requests
+      - "8001:8001"  # Admin API
+      - "8444:8444"  # Secure Admin API
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
